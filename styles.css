@@ -452,3 +452,101 @@ button.next {
 #projects {
     margin-top: 1rem; /* 如果有的話，也要減少 */
 }
+
+/* 基本的響應式斷點 */
+@media screen and (max-width: 768px) {
+    /* 導航欄漢堡選單 */
+    .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-container ul {
+        display: none; /* 預設隱藏選單 */
+        width: 100%;
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .nav-container ul.active {
+        display: flex;
+    }
+
+    .nav-container li {
+        width: 100%;
+        text-align: center;
+        padding: 1rem 0;
+    }
+
+    /* 漢堡按鈕 */
+    .hamburger {
+        display: block;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+    }
+
+    /* 作品集卡片置中 */
+    .projects-grid {
+        justify-content: center;
+        padding: 0 1rem;
+    }
+
+    .project-card {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    /* 文章卡片改為直式排列 */
+    .article-card {
+        flex-direction: column;
+        max-width: 350px;
+        margin: 0 auto 2rem;
+    }
+
+    .img-block {
+        width: 100%;
+        height: 200px;
+    }
+
+    .article-content {
+        padding: 1rem;
+    }
+
+    .article-content p {
+        display: none; /* 隱藏文章內容 */
+    }
+
+    .article-meta {
+        margin: 0.5rem 0;
+    }
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-light);
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
