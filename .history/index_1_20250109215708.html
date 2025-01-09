@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ICHIEH Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const mediumRssFeed = 'https://medium.com/feed/@chiehg0v';
+            const rssToJsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(mediumRssFeed)}`;
+            
+            $.getJSON(rssToJsonApi, function(data) {
+                const articles = data.items;
+                let articlesHtml = '';
+                
+                articles.forEach(article => {
+                    // 提取第一張圖片（如果有的話）
+                    const imgMatch = article.content.match(/<img[^>]+src="([^">]+)"/);
+                    const imgSrc = imgMatch ? imgMatch[1] : 'photo/default-article.jpg';
+                    
+                    // 格式化日期
+                    const pubDate = new Date(article.pubDate);
+                    const formattedDate = pubDate.toLocaleDateString('zh-TW');
+                    
+                    articlesHtml += `
+                        <div class="article-card">
+                            <div class="img-block">
+                                <img src="${imgSrc}" alt="${article.title}">
+                            </div>
+                            <a href="${article.link}" target="_blank" class="article-content">
+                                <h3>${article.title}</h3>
+                                <div class="article-meta">
+                                    <span class="date">${formattedDate}</span>
+                                </div>
+                                <p>${article.description}</p>
+                            </a>
+                        </div>
+                    `;
+                });
+                
+                $('.articles-grid').html(articlesHtml);
+            });
+        });
+    </script>
+    <style>
+        .articles-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .article-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: row;
+            height: 250px;
+        }
+
+        .article-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .article-card .img-block {
+            flex: 0 0 40%;
+            overflow: hidden;
+        }
+
+        .article-card .img-block img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .article-content {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .article-content h3 {
+            margin: 0 0 1rem;
+            font-size: 1.4rem;
+            color: #333;
+            line-height: 1.4;
+        }
+
+        .article-meta {
+            margin-bottom: 1rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .article-content p {
+            margin: 0;
+            color: #666;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .article-card {
+                flex-direction: column;
+                height: auto;
+            }
+
+            .article-card .img-block {
+                height: 200px;
+            }
+
+            .article-content {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 導航欄 -->
+    <nav>
+        <div class="nav-container">
+            <h1>麻瓜開發手札 Code with AI</h1>
+            <button class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul>
+                <li><a href="#about">關於我</a></li>
+                <li><a href="#projects">作品集</a></li>
+                <li><a href="#articles">開發紀錄文章</a></li>
+                <li><a href="en.html">EN</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 關於我 -->
+    <section id="about">
+        <div class="about-content">
+            <img src="photo/your-photo.jpg" alt="個人照片">
+            <div class="about-text">
+                <h3>陳以婕</h3>
+                <p>正在與 AI co-work 完成專案的程式麻瓜，本頁面使用 Cursor 編寫，花費時間 3 小時。</p>
+                <p>AI 專案管理｜AI 專案開發｜活動舉辦｜社群經營｜文章撰寫</p>
+                <div class="contact-links">
+                    <a href="mailto:chiehg0v@gmail.com" target="_blank">
+                        <span>📧</span> chiehg0v@gmail.com
+                    </a>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/iccchen" target="_blank">LinkedIn</a>
+                        <a href="https://github.com/fromnowonme" target="_blank">GitHub</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 作品集 -->
+    <section id="projects">
+        <h2>作品集</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <a href="https://chatgpt.com/g/g-L5uqmd5h2-beta-she-ji-gong-ju-xiao-bang-shou-slides" target="_blank">
+                    <div class="img-block">
+                        <img src="photo/project1.jpg" alt="專案圖片">
+                    </div>
+                </a>
+                <h3>設計工具小幫手 GPTs</h3>
+                <p>GPTs 小工具，可協助設計師將逐字稿或訪談，整理與分析成顧客旅程地圖、同理心地圖、顧客旅程地圖，並呼叫 Apps Script API 串接製作成 Google Slides。</p>
+                <div class="project-links">
+                    <a href="https://chatgpt.com/g/g-L5uqmd5h2-beta-she-ji-gong-ju-xiao-bang-shou-slides" target="_blank">查看專案</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="img-block">
+                    <img src="photo/project5.jpeg" alt="Line Bot 翻譯救星">
+                </div>
+                <h3>Line Bot 翻譯救星</h3>
+                <p>本專案是一個基於 LINE Messaging API 與 OpenAI GPT-4o 的多語言翻譯 Bot，專門設計來協助需要外籍看護的家庭，透過群組即時翻譯，打破語言隔閡。</p>
+                <div class="project-links">
+                    <a href="https://page.line.me/030ezxhx" target="_blank">加入好友</a>
+                    <a href="https://hackmd.io/@ejc/translator_savior_linebot" target="_blank">專案說明</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <div class="img-block">
+                    <img src="photo/project2.jpg" alt="公司統編抬頭比對工具">
+                </div>
+                <h3>公司統編抬頭比對工具</h3>
+                <p>此工具是一個基於網頁的應用程式，用於比對公司統編與抬頭名稱，是否政府登記資料相符。您可以上傳包含公司統編與抬頭的原始資料和需要比對的資料，工具將自動進行比對並生成結果，方便核對和匯出。</p>
+                <div class="project-links">
+                    <a href="https://fromnowonme.github.io/companyid/" target="_blank">查看專案</a>
+                    <a href="https://github.com/fromnowonme/companyid" target="_blank">GitHub</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="img-block">
+                    <img src="photo/project3.jpg" alt="兩階段驗證碼共享小工具">
+                </div>
+                <h3>兩階段驗證碼共享小工具</h3>
+                <p>工作夥伴需要共同管理登入 gmail 帳號，登入時會需要使用特定裝置 Google Authenticator取得兩階段驗證碼，這個小工具可以讓我的夥伴在網頁要求驗證碼，並將其發送到指定的 Slack 頻道，以利登入。</p>
+                <div class="project-links">
+                    <a href="https://huggingface.co/spaces/fromnowoncoding/2fa" target="_blank">查看專案</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="img-block">
+                    <img src="photo/project4.jpg" alt="Pantone 色票爬蟲">
+                </div>
+                <h3>Pantone 色票爬蟲</h3>
+                <p>使用 Google Colab 執行 Python 進行網頁爬蟲。在合作案的前端網頁中，希望能有色票呈現商品顏色，但原始資料為 Pantone 色票，需要轉為 RGB 網頁才能顯示，因此需要有 Pantone 色票與 RGB 數字轉換的對照表。</p>
+                <div class="project-links">
+                    <a href="https://docs.google.com/spreadsheets/d/1ZFI8d0lcRB3Jui54ZzV-WRA-RgxGfP5znOEsQ0HTWRA/edit?usp=sharing" target="_blank">查看成果</a>
+                    <a href="https://colab.research.google.com/drive/1eGk6nJlETM3QEIT9bwO5VfBgLi24IMz3?usp=sharing" target="_blank">Google Colab</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 開發紀錄文章 -->
+    <section id="articles">
+        <h2>開發紀錄文章</h2>
+        <div class="articles-grid">
+            <!-- Medium 文章將透過 JavaScript 動態載入到這裡 -->
+            <div class="loading">載入中...</div>
+        </div>
+    </section>
+
+    <!-- 活動筆記 -->
+    <section id="event-notes">
+        <h2>活動筆記</h2>
+        <div class="articles-grid">
+            <div class="article-card">
+                <div class="img-block">
+                    <img src="photo/event1.jpg" alt="活動筆記1">
+                </div>
+                <a href="https://www.facebook.com/share/p/1BCuDdSNkX/" target="_blank" class="article-content">
+                    <h3>GENERATIVE AI 開發者小聚</h3>
+                    <div class="article-meta">
+                        <span class="date">2024/10/16</span>
+                    </div>
+                    <p>本次小聚涵蓋從跨國品牌創意、AI 影片生成、國考技能強化，到非程式背景的開發工具學習，以及個人化學習與自動化流程的分享，展示了生成式 AI 在創作、生產力提升與生活中的多樣化可能性。</p>
+                </a>
+            </div>
+            <div class="articles-grid">
+                <div class="article-card">
+                    <div class="img-block">
+                        <img src="photo/event2.jpg" alt="活動筆記2">
+                    </div>
+                    <a href="https://www.facebook.com/share/p/1B8nYwDMGz/ " target="_blank" class="article-content">
+                        <h3>OpenAI Mark Chen 演講</h3>
+                        <div class="article-meta">
+                            <span class="date">2023/9/27</span>
+                        </div>
+                        <p>今天 Mark 在清大有一個三十分鐘的分享，以及一小時讓大家問爆的時間，以下是小小筆記分享<br>
+                            - Getting the Most out of GPT<br>
+                            - GPT > ChatGPT<br>
+                            - Extracting reasoning from GPT<br>
+                            - GPT+Tools：另一個方法讓 gpt 模型更好</p>                    </a>
+                </div>
+                <div class="articles-grid">
+            <div class="article-card">
+                <div class="img-block">
+                    <img src="photo/event3.jpg" alt="活動筆記3">
+                </div>
+                <a href="https://www.facebook.com/share/p/19Vn6nLYTb/" target="_blank" class="article-content">
+                    <h3>台灣人工智慧學校工作坊</h3>
+                    <div class="article-meta">
+                        <span class="date">2023/03/18</span>
+                    </div>
+                    <p>今天參加台灣人工智慧學校舉行的 生成式 AI 衝擊工作坊，對於在這個時間點，自己、工作、公司、同事可以做什麼，有了更具體的方向，今天的分享就改成工作坊筆記與心得。</p>
+                </a>
+            </div>   
+        
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 ICC All rights reserved.</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>

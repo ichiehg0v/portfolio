@@ -1,0 +1,552 @@
+/* 全局重置和基本設置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-dark: #40352C;    /* 深棕色 */
+    --color-medium: #8B7355;  /* 中棕色 */
+    --color-light: #D4CAB0;   /* 米色 */
+    --color-background: #F5F2E9; /* 淺米色背景 */
+}
+
+body {
+    font-family: 'Noto Sans TC', sans-serif;
+    line-height: 1.6;
+    color: var(--color-dark);
+    background-color: var(--color-background);
+}
+
+/* 導航欄樣式 */
+nav {
+    position: fixed;
+    width: 100%;
+    background-color: var(--color-dark);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    z-index: 1000;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+nav a {
+    text-decoration: none;
+    color: var(--color-light);
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #fff;
+}
+
+.nav-container h1 {
+    color: #D4CAB0; /* 米色 */
+    margin: 0;
+    font-family: "Noto Sans TC", sans-serif;
+    font-size: 24px;
+}
+
+/* 首頁區塊樣式 */
+#hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(45deg, #f3f4f6, #fff);
+    text-align: center;
+    padding: 2rem;
+}
+
+.hero-content h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.hero-content h2 {
+    font-size: 2rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+/* 通用區塊樣式 */
+section {
+    padding: 5rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+section h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.5rem;
+    color: var(--color-dark);
+}
+
+/* 關於我區塊 */
+.about-content {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+}
+
+.about-content img {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-text h3 {
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.about-text p {
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.contact-links {
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+
+.contact-links a {
+    text-decoration: none;
+    color: var(--color-dark);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.social-links a {
+    padding: 0.5rem 2rem;
+    background: var(--color-dark);
+    color: var(--color-light);
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.social-links a:hover {
+    background: var(--color-medium);
+}
+
+/* 作品集區塊 */
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.project-card {
+    background: var(--color-light);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+.project-card .img-block {
+    width: 100%;
+    padding-bottom: 100%;
+    position: relative;
+    background-color: #000;
+    overflow: hidden;
+}
+
+.project-card .img-block img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.project-card h3 {
+    padding: 1rem;
+    font-size: 1.2rem;
+}
+
+.project-card p {
+    padding: 0 1rem;
+    height: 140px;
+    overflow: auto;
+    margin-bottom: 1rem;
+}
+
+.project-links {
+    padding: 1rem;
+    margin-top: auto;
+    display: flex;
+    gap: 1rem;
+}
+
+.project-links a {
+    padding: 0.75rem 1.5rem;
+    background: var(--color-dark);
+    color: var(--color-light);
+    text-decoration: none;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    text-align: center;
+    font-weight: 500;
+}
+
+.project-links a:hover {
+    background: var(--color-medium);
+    transform: translateY(-2px);
+}
+
+/* 技能區塊 */
+.skills-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+}
+
+.skill-category {
+    background: #f8f9fa;
+    padding: 2rem;
+    border-radius: 10px;
+}
+
+.skill-category h3 {
+    margin-bottom: 1rem;
+    color: #007bff;
+}
+
+.skill-category ul {
+    list-style: none;
+}
+
+.skill-category li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.skill-category li::before {
+    content: "•";
+    color: #007bff;
+    position: absolute;
+    left: 0;
+}
+
+/* 頁尾樣式 */
+footer {
+    text-align: center;
+    padding: 2rem;
+    background: var(--color-dark);
+    color: var(--color-light);
+}
+
+/* 響應式設計 */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    nav ul {
+        margin-top: 1rem;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .about-content {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .hero-content h1 {
+        font-size: 2rem;
+    }
+    
+    .hero-content h2 {
+        font-size: 1.5rem;
+    }
+}
+
+.articles-grid {
+    display: block;
+}
+
+.article-card {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+    margin-bottom: 2rem;
+}
+
+.article-card:hover {
+    transform: translateY(-5px);
+}
+
+.img-block {
+    width: 341.5px;
+    height: 300px;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.img-block img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.article-content {
+    padding: 1.5rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+}
+
+.article-content h3 {
+    color: var(--color-dark);
+    margin-bottom: 1rem;
+}
+
+.article-content p {
+    color: var(--color-dark);
+}
+
+.article-meta .date {
+    color: #888;
+}
+
+.article-content:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.article-content:visited,
+.article-content:active {
+    color: inherit;
+}
+
+@media (max-width: 1200px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.carousel {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.project-card {
+    min-width: 300px;
+    margin: 0 10px;
+    flex-shrink: 0;
+}
+
+button.prev, button.next {
+    background-color: transparent;
+    border: none;
+    font-size: 2rem;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+button.prev {
+    left: 0;
+}
+
+button.next {
+    right: 0;
+}
+
+.article-meta {
+    padding: 0 1rem 1rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.article-meta .date {
+    color: #888;
+}
+
+/* 調整 about section 的間距 */
+#about {
+    padding: 8rem 2rem 1rem; /* 上、左右、下的內邊距，減少下方間距 */
+}
+
+/* 確保 about-content 的樣式正確 */
+.about-content {
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+}
+
+/* 調整與下一個區塊的間距 */
+#projects {
+    padding: 5rem 2rem; /* 減少上方間距 */
+}
+
+/* 如果有 margin，也需要調整 */
+#about {
+    margin-bottom: 1rem; /* 如果有的話，也要減少 */
+}
+
+#projects {
+    margin-top: 1rem; /* 如果有的話，也要減少 */
+}
+
+/* 基本的響應式斷點 */
+@media screen and (max-width: 768px) {
+    /* 導航欄漢堡選單 */
+    .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .nav-container ul {
+        display: none; /* 預設隱藏選單 */
+        width: 100%;
+        flex-direction: column;
+        padding: 0;
+    }
+
+    .nav-container ul.active {
+        display: flex;
+    }
+
+    .nav-container li {
+        width: 100%;
+        text-align: center;
+        padding: 1rem 0;
+    }
+
+    /* 漢堡按鈕 */
+    .hamburger {
+        display: block;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        cursor: pointer;
+    }
+
+    /* 作品集卡片置中 */
+    .projects-grid {
+        justify-content: center;
+        padding: 0 1rem;
+    }
+
+    .project-card {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    /* 文章卡片改為直式排列 */
+    .article-card {
+        flex-direction: column;
+        max-width: 350px;
+        margin: 0 auto 2rem;
+    }
+
+    .img-block {
+        width: 100%;
+        height: 200px;
+    }
+
+    .article-content {
+        padding: 1rem;
+    }
+
+    .article-content p {
+        display: none; /* 隱藏文章內容 */
+    }
+
+    .article-meta {
+        margin: 0.5rem 0;
+    }
+}
+
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+}
+
+.hamburger span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-light);
+    margin: 5px 0;
+    transition: 0.4s;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: rotate(45deg) translate(-5px, -6px);
+}
