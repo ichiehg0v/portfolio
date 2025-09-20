@@ -160,48 +160,103 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            const mediumRssFeed = 'https://medium.com/feed/@chiehg0v';
-            const rssToJsonApi = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(mediumRssFeed)}`;
+            const mediumRssFeed = 'https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@chiehg0v';
             
-            $.getJSON(rssToJsonApi, function(data) {
-                const articles = data.items;
-                let articlesHtml = '';
-                
-                articles.forEach(article => {
-                    // 提取第一張圖片（如果有的話）
-                    const imgMatch = article.content.match(/<img[^>]+src="([^">]+)"/);
-                    const imgSrc = imgMatch ? imgMatch[1] : 'photo/default-article.jpg';
+            // 顯示載入中訊息
+            $('.articles-grid').html('<div class="loading">載入文章中，請稍候...</div>');
+            
+            // 使用 jQuery 的 AJAX 方法獲取文章
+            $.ajax({
+                url: mediumRssFeed,
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.status === 'ok') {
+                        let articlesHtml = '';
+                        const articles = response.items.slice(0, 5); // 只顯示最新 5 篇文章
+                        
+                        articles.forEach(article => {
+                            const imgMatch = article.content.match(/<img[^>]+src="([^">]+)"/);
+                            const imgSrc = imgMatch ? imgMatch[1] : 'photo/default-article.jpg';
+                            const pubDate = new Date(article.pubDate);
+                            const formattedDate = pubDate.toLocaleDateString('zh-TW');
+                            
+                            // 處理文章描述
+                            let description = article.description.replace(/<[^>]*>/g, '');
+                            if (description.length > 100) {
+                                description = description.substring(0, 100) + '...more';
+                            }
                     
-                    // 格式化日期
-                    const pubDate = new Date(article.pubDate);
-                    const formattedDate = pubDate.toLocaleDateString('zh-TW');
-                    
-                    // 處理文章描述，只取前 100 個字
-                    let description = article.description.replace(/<[^>]*>/g, ''); // 移除 HTML 標籤
-                    if (description.length > 100) {
-                        description = description.substring(0, 100) + '...more';
-                    }
-                    
-                    articlesHtml += `
-                        <div class="article-card">
-                            <div class="img-block">
-                                <img src="${imgSrc}" alt="${article.title}">
-                            </div>
-                            <a href="${article.link}" target="_blank" class="article-content">
-                                <h3>${article.title}</h3>
-                                <div class="article-meta">
-                                    <span class="date">${formattedDate}</span>
+                            articlesHtml += `
+                                <div class="article-card">
+                                    <div class="img-block">
+                                        <img src="${imgSrc}" alt="${article.title}">
+                                    </div>
+                                    <a href="${article.link}" target="_blank" class="article-content">
+                                        <h3>${article.title}</h3>
+                                        <div class="article-meta">
+                                            <span class="date">${formattedDate}</span>
+                                        </div>
+                                        <p>${description}</p>
+                                    </a>
                                 </div>
-                                <p>${description}</p>
-                            </a>
-                        </div>
-                    `;
-                });
-                
-                $('.articles-grid').html(articlesHtml);
+                            `;
+                        });
+                        
+                        // 添加「查看更多」按鈕
+                        articlesHtml += `
+                            <div class="view-more-container">
+                                <a href="https://medium.com/@chiehg0v" target="_blank" class="view-more-btn">
+                                    查看更多文章
+                                </a>
+                            </div>
+                        `;
+                        
+                        $('.articles-grid').html(articlesHtml);
+                    } else {
+                        throw new Error('無法載入文章');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('載入文章時出錯:', error);
+                    $('.articles-grid').html('<div class="error">無法載入文章，請稍後再試。</div>');
+                }
             });
         });
     </script>
+    <style>
+        .error {
+            color: #ff4444;
+            text-align: center;
+            padding: 20px;
+        }
+        .view-more-container {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px 0;
+            width: 100%;
+        }
+        .view-more-btn {
+            display: inline-block;
+            padding: 10px 24px;
+            background-color: transparent;
+            color: #333;
+            text-decoration: none;
+            border: 2px solid #333;
+            border-radius: 4px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        .view-more-btn:hover {
+            background-color: #333;
+            color: #fff;
+            text-decoration: none;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+    </style>
 
     <footer>
         <p>&copy; 2024 ICC All rights reserved.</p>
