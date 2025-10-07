@@ -159,6 +159,42 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
+        // Hamburger menu toggle
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('nav ul');
+            
+            hamburger.addEventListener('click', function() {
+                this.classList.toggle('active');
+                navMenu.classList.toggle('active');
+                
+                // Animate hamburger to X
+                const spans = this.querySelectorAll('span');
+                if (this.classList.contains('active')) {
+                    spans[0].style.transform = 'translateY(9px) rotate(45deg)';
+                    spans[1].style.opacity = '0';
+                    spans[2].style.transform = 'translateY(-9px) rotate(-45deg)';
+                } else {
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                }
+            });
+            
+            // Close menu when clicking on a nav link
+            document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', () => {
+                    hamburger.classList.remove('active');
+                    navMenu.classList.remove('active');
+                    const spans = hamburger.querySelectorAll('span');
+                    spans[0].style.transform = 'none';
+                    spans[1].style.opacity = '1';
+                    spans[2].style.transform = 'none';
+                });
+            });
+        });
+        
+        // Existing jQuery code
         $(document).ready(function() {
             const mediumRssFeed = 'https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@chiehg0v';
             
