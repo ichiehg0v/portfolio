@@ -5,12 +5,12 @@ import { getCollection } from 'astro:content';
 
 const lang = 'zh';
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
-const base = import.meta.env.BASE_URL;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 <Layout lang={lang}>
   <section id="about">
     <div class="about-content">
-      <img src={`${base}photo/your-photo.jpg`} alt="個人照片" />
+      <img src={`${base}/photo/your-photo.jpg`} alt="個人照片" />
       <div class="about-text">
         <h3>{t(lang, 'about.name')}</h3>
         <p>{t(lang, 'about.bio1')}</p>
@@ -34,7 +34,7 @@ const base = import.meta.env.BASE_URL;
       {projects.map(p => (
         <div class="project-card">
           <div class="img-block">
-            <img src={`${base}${p.data.image}`} alt={p.data.titleZh} loading="lazy" />
+            <img src={`${base}/${p.data.image}`} alt={p.data.titleZh} loading="lazy" />
           </div>
           <div class="card-body">
             <h3>{p.data.titleZh}</h3>
