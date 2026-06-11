@@ -1,0 +1,89 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { t } from '../i18n/index';
+import { getCollection } from 'astro:content';
+
+const lang = 'zh';
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+const base = import.meta.env.BASE_URL;
+---
+<Layout lang={lang}>
+  <section id="about">
+    <div class="about-content">
+      <img src={`${base}photo/your-photo.jpg`} alt="個人照片" />
+      <div class="about-text">
+        <h3>{t(lang, 'about.name')}</h3>
+        <p>{t(lang, 'about.bio1')}</p>
+        <p>{t(lang, 'about.bio2')}</p>
+        <div class="contact-links">
+          <a href="mailto:chiehg0v@gmail.com">📧 chiehg0v@gmail.com</a>
+          <div class="social-links">
+            <a href="https://linkedin.com/in/iccchen" target="_blank">LinkedIn</a>
+            <a href="https://github.com/ichiehg0v" target="_blank">GitHub</a>
+            <a href="https://huggingface.co/fromnowoncoding" target="_blank">Hugging Face</a>
+            <a href="https://medium.com/@chiehg0v" target="_blank">Medium 文章</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>{t(lang, 'projects.title')}</h2>
+    <div class="projects-grid">
+      {projects.map(p => (
+        <div class="project-card">
+          <div class="img-block">
+            <img src={`${base}${p.data.image}`} alt={p.data.titleZh} loading="lazy" />
+          </div>
+          <div class="card-body">
+            <h3>{p.data.titleZh}</h3>
+            <p>{p.data.descZh}</p>
+            <div class="project-links">
+              {p.data.links.map(link => (
+                <a href={link.url} target="_blank" rel="noopener">{link.labelZh}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section id="articles">
+    <h2>{t(lang, 'articles.title')}</h2>
+    <div class="articles-grid" id="articles-grid">
+      <div class="loading">{t(lang, 'articles.loading')}</div>
+    </div>
+  </section>
+</Layout>
+
+<script define:vars={{ viewMore: t(lang, 'articles.viewMore'), errorMsg: t(lang, 'articles.error'), locale: t(lang, 'locale') }}>
+  async function loadArticles() {
+    const grid = document.getElementById('articles-grid');
+    if (!grid) return;
+    try {
+      const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@chiehg0v');
+      const data = await res.json();
+      if (data.status !== 'ok') throw new Error();
+      const articles = data.items.slice(0, 5);
+      grid.innerHTML = articles.map(a => {
+        const imgMatch = a.content.match(/<img[^>]+src="([^">]+)"/);
+        const img = imgMatch ? imgMatch[1] : '';
+        const desc = a.description.replace(/<[^>]*>/g, '').substring(0, 100) + '...';
+        const date = new Date(a.pubDate).toLocaleDateString(locale);
+        return `<div class="article-card">
+          ${img ? `<div class="img-block"><img src="${img}" alt="${a.title}" loading="lazy"></div>` : ''}
+          <a href="${a.link}" target="_blank" rel="noopener" class="article-content">
+            <h3>${a.title}</h3>
+            <div class="article-meta"><span class="date">${date}</span></div>
+            <p>${desc}</p>
+          </a>
+        </div>`;
+      }).join('') + `<div class="view-more-container"><a href="https://medium.com/@chiehg0v" target="_blank" class="view-more-btn">${viewMore}</a></div>`;
+    } catch {
+      if (grid) grid.innerHTML = `<div class="error">${errorMsg}</div>`;
+    }
+  }
+  loadArticles();
+</script>
